@@ -5,9 +5,17 @@ let computerPoints = 0;
 let games = 0;
 btns.forEach((btn) => {
     btn.addEventListener("click", () => {
+        if (games == 5) {
+            const paras = document.querySelectorAll(".result")
+            paras.forEach((para) => {
+                results.removeChild(para);
+            })
+            restartGame()
+        }
         const para = document.createElement("p")
+        para.classList.add("result")
         results.appendChild(para)
-        para.textContent += playRound(btn.className)
+        para.textContent = playRound(btn.className)
         addPoint(para.textContent)
     });
 })
@@ -29,23 +37,6 @@ function playRound(playerSelection, computerSelection = computerPlay()) {
 
 }
 
-/*function playGame(){
-    let playerPoints = 0;
-    let computerPoints = 0;
-    for(i = 0; i < 5; i++){
-        let playerPlay = window.prompt("Your next play will be: ")
-        let round = playRound(playerPlay)
-        console.log(round)
-        if(round.includes("win")){
-            ++playerPoints;
-        } else if(round.includes("lose")){
-            ++computerPoints;
-        }
-    }
-    return checkFinalWinner(playerPoints, computerPoints);
-}
-*/
-
 function checkFinalWinner(playerPoints, computerPoints) {
     if (playerPoints > computerPoints) {
         return "You won " + playerPoints + " to " + computerPoints;
@@ -55,9 +46,9 @@ function checkFinalWinner(playerPoints, computerPoints) {
 }
 
 function restartGame() {
-    let playerPoints = 0;
-    let computerPoints = 0;
-    let games = 0;
+    playerPoints = 0;
+    computerPoints = 0;
+    games = 0;
 }
 
 function addPoint(resultString) {
@@ -70,7 +61,10 @@ function addPoint(resultString) {
     console.log(playerPoints);
     console.log(computerPoints);
     if (games == 5) {
-        console.log(checkFinalWinner(playerPoints, computerPoints));
+        const para = document.createElement("p")
+        results.appendChild(para)
+        para.textContent = checkFinalWinner(playerPoints, computerPoints);
+        para.classList.add("result")
     }
 }
 
