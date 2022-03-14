@@ -1,9 +1,14 @@
 const btns = document.querySelectorAll("button")
-const results = document.querySelector(".results");
+const results = document.querySelector("div");
+let playerPoints = 0;
+let computerPoints = 0;
+let games = 0;
 btns.forEach((btn) => {
     btn.addEventListener("click", () => {
-        results.textContent = "a"
-        console.log(playRound(btn.className));
+        const para = document.createElement("p")
+        results.appendChild(para)
+        para.textContent += playRound(btn.className)
+        addPoint(para.textContent)
     });
 })
 
@@ -49,6 +54,25 @@ function checkFinalWinner(playerPoints, computerPoints) {
     } else return "You have a draw with " + playerPoints + " points";
 }
 
+function restartGame() {
+    let playerPoints = 0;
+    let computerPoints = 0;
+    let games = 0;
+}
+
+function addPoint(resultString) {
+    games++;
+    if (resultString.includes("win")) {
+        ++playerPoints;
+    } else if (resultString.includes("lose")) {
+        ++computerPoints;
+    }
+    console.log(playerPoints);
+    console.log(computerPoints);
+    if (games == 5) {
+        console.log(checkFinalWinner(playerPoints, computerPoints));
+    }
+}
 
 function checkWinner(playerSelection, computerSelection) {
     if (playerSelection == "rock") {
