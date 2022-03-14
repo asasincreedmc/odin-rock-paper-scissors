@@ -5,18 +5,13 @@ let computerPoints = 0;
 let games = 0;
 btns.forEach((btn) => {
     btn.addEventListener("click", () => {
-        if (games == 5) {
-            const paras = document.querySelectorAll(".result")
-            paras.forEach((para) => {
-                results.removeChild(para);
-            })
-            restartGame()
+        if (games != 5) {
+            const para = document.createElement("p")
+            para.classList.add("result")
+            results.appendChild(para)
+            para.textContent = playRound(btn.className)
+            addPoint(para.textContent)
         }
-        const para = document.createElement("p")
-        para.classList.add("result")
-        results.appendChild(para)
-        para.textContent = playRound(btn.className)
-        addPoint(para.textContent)
     });
 })
 
@@ -58,14 +53,27 @@ function addPoint(resultString) {
     } else if (resultString.includes("lose")) {
         ++computerPoints;
     }
-    console.log(playerPoints);
-    console.log(computerPoints);
     if (games == 5) {
         const para = document.createElement("p")
         results.appendChild(para)
         para.textContent = checkFinalWinner(playerPoints, computerPoints);
         para.classList.add("result")
+        resetBtn()
     }
+}
+
+function resetBtn() {
+    let resetBtn = document.createElement("button");
+    results.appendChild(resetBtn);
+    resetBtn.textContent = "Reset"
+    resetBtn.classList.add("result")
+    resetBtn.addEventListener("click", () => {
+        const paras = document.querySelectorAll(".result")
+        paras.forEach((para) => {
+            results.removeChild(para);
+        })
+        restartGame()
+    })
 }
 
 function checkWinner(playerSelection, computerSelection) {
